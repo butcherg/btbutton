@@ -11,36 +11,43 @@ brute-force /dev shenanigans, as well as select(), poll(), epoll(), and
 various event libraries, I came up with the combination of libudev and 
 poll() as the simplest and most reliable alternative.
 
+## Prerequisites
+
 If you have a Raspberry Pi 3, you'll already have Bluetooth hardware
 built-in, otherwise you'll need a Bluetooth USB adapter, got my for $14US
 at MicroCenter.  You'll need to pair and trust your button using
 bluetoothctl:
 
-$ sudo bluetoothctl
-[bluetooth]# pair xx:xx:xx:xx:xx:xx
-[bluetooth]# trust xx:xx:xx:xx:xx:xx
-[bluetooth]# connect xx:xx:xx:xx:xx:xx
+    $ sudo bluetoothctl
+    [bluetooth]# pair xx:xx:xx:xx:xx:xx
+    [bluetooth]# trust xx:xx:xx:xx:xx:xx
+    [bluetooth]# connect xx:xx:xx:xx:xx:xx
 
 Where xx:xx:xx:xx:xx:xx is your button's device address.  You can find 
 it like this:
 
-[bluetooth]# scan on
+    [bluetooth]# scan on
 
+
+## Building
 
 If you don't alreadyhave libudev, you'll need to install it:
 
-$ sudo apt-get install libudev-dev
+    $ sudo apt-get install libudev-dev
 
 
 Clone the repository to your Pi, then compile the program:
 
-$ make
+    $ make
 
 The Makefile is dirt-simple, it only compiles and cleans.
 
+
+## Using
+
 Run the program like this:
 
-$ sudo ./btbutton
+    $ sudo ./btbutton
 
 If your button is already paired and connected, btbutton will print
 a message to that effect along with the device path, e.g., /dev/hidraw0.
@@ -57,12 +64,15 @@ the printfs with code that handles your intended object of control,
 GPIO, I2C, etc.  I have a homebrew X10 library's function calls  inserted 
 here for my particular use.
 
+
+## Note
+
 I'm posting this code to capture the trades I went through to integrate 
 a simple yet reliable solution.  Comments and critique are welcome to make 
 it correct-er or more instructive.  If you want to make it into something 
 else, fork it.
 
 
-To-Dos:
+## To-Dos:
 - Command-line input of button serial number.  Right now, btbutton will only
 work reliably with one paired HID keyboard device.
